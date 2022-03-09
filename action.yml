@@ -1,0 +1,15 @@
+name: 'Test credential leaking'
+description: 'Scan folders for leaked credentials'
+inputs:
+  scan_path:
+    required: true
+    default: "./"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
+    - name: Scan folder
+      shell: bash
+      run: scan.sh ${{ inputs.scan_path }}
