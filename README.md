@@ -1,6 +1,6 @@
 # Credential Scanner
 
-This small bash script will scan for leaked Access Keys or Secret Keys in a folder.
+This small bash script will scan for leaked [Access Keys or Secret Keys](https://docs.outscale.com/en/userguide/About-Access-Keys.html) in a folder.
 
 # Usage
 
