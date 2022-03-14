@@ -81,8 +81,8 @@ function print_help {
     echo "$0 FOLDER_PATH"
     echo ""
     echo "Supported credentials:"
-    echo "- Access Keys (20 capital hexadecimal string)"
-    echo "- Secret Keys (40 capital hexadecimal string)"
+    echo "- Access Keys (20 capital alphanumeric string)"
+    echo "- Secret Keys (40 capital alphanumeric string)"
 }
 
 if [ "$#" -ne 1 ]; then

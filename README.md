@@ -14,8 +14,8 @@ Example
 
 - Skip binary files
 - Search for:
-  - Access Keys (20 capital hexadecimal string)
-  - Secret Keys (40 capital hexadecimal string)
+  - Access Keys (20 capital alphanumeric string)
+  - Secret Keys (40 capital alphanumeric string)
 
 # Contributing
 
