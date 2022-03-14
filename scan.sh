@@ -35,18 +35,16 @@ function scan {
 function search_ak {
     local file=$1
     local matched
-    local digit_only
+    local digits
+    local alphas
     matched=$(sed -nE 's/(^|.*[^a-zA-Z0-9]+)([A-Z0-9]{20})([^a-zA-Z0-9]+.*|$)/\2/p' "$file")
     if [[ -z "$matched" ]]; then
 	return 0
     fi
     for ak in $matched; do
-	digit_only=$(echo "$ak" | sed -nE 's/.*([0-9]{20}).*/\1/p')
-	if [[ -n "$digit_only" ]]; then
-	    continue
-	fi
-	alpha_only=$(echo "$ak" | sed -nE 's/.*([A-Z]{20}).*/\1/p')
-	if [[ -n "$alpha_only" ]]; then
+	digits=$(echo -n "$ak" | tr -d "\[^0-9\]" | wc -c)
+	alphas=$(echo -n "$ak" | tr -d "\[^A-Z\]" | wc -c)
+	if (( digits < 3 )) || (( alphas < 3 )); then
 	    continue
 	fi
 	return 1
@@ -57,18 +55,16 @@ function search_ak {
 function search_sk {
     local file=$1
     local matched
-    local digit_only
+    local digits
+    local alphas
     matched=$(sed -nE 's/(^|.*[^a-zA-Z0-9]+)([A-Z0-9]{40})([^a-zA-Z0-9]+.*|$)/\2/p' "$file")
     if [[ -z "$matched" ]]; then
 	return 0
     fi
     for sk in $matched; do
-	digit_only=$(echo "$sk" | sed -nE 's/.*([0-9]{40}).*/\1/p')
-	if [[ -n "$digit_only" ]]; then
-	    continue
-	fi
-	alpha_only=$(echo "$sk" | sed -nE 's/.*([A-Z]{40}).*/\1/p')
-	if [[ -n "$alpha_only" ]]; then
+	digits=$(echo -n "$sk" | tr -d "\[^0-9\]" | wc -c)
+	alphas=$(echo -n "$sk" | tr -d "\[^A-Z\]" | wc -c)
+	if (( digits < 5 )) || (( alphas < 5 )); then
 	    continue
 	fi
 	return 1
