@@ -36,7 +36,7 @@ function search_ak {
     local file=$1
     local matched
     local digit_only
-    matched=$(sed -nE 's/(^|.*[^A-Z0-9]+)([A-Z0-9]{20})([^A-Z0-9]+.*|$)/\2/p' "$file")
+    matched=$(sed -nE 's/(^|.*[^a-zA-Z0-9]+)([A-Z0-9]{20})([^a-zA-Z0-9]+.*|$)/\2/p' "$file")
     if [[ -z "$matched" ]]; then
 	return 0
     fi
@@ -58,7 +58,7 @@ function search_sk {
     local file=$1
     local matched
     local digit_only
-    matched=$(sed -nE 's/(^|.*[^A-Z0-9]+)([A-Z0-9]{40})([^A-Z0-9]+.*|$)/\2/p' "$file")
+    matched=$(sed -nE 's/(^|.*[^a-zA-Z0-9]+)([A-Z0-9]{40})([^a-zA-Z0-9]+.*|$)/\2/p' "$file")
     if [[ -z "$matched" ]]; then
 	return 0
     fi
