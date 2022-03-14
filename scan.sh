@@ -3,12 +3,12 @@ set -eu
 
 function scan {
     local path=$1
-    local result=0
-    local file_mime
-    local old_ifs
-    old_ifs="$IFS"
-    IFS=$'\n'
-    for file in $(find "$path" -type f | xargs --null); do
+    local result_path
+    local result
+    result_path=$(mktemp)
+    echo 0 > "$result_path"
+    find "$path" -type f | while read -r file; do
+	local file_mime
 	echo -n "checking ${file}... "
 	file_mime="$(file -b --mime-encoding "$file")"
 	if [[ "$file_mime" = "binary" ]]; then
@@ -17,18 +17,19 @@ function scan {
 	fi
 	if ! search_sk "$file"; then
 	    echo "ko (potential Secret Key found)"
-	    result=1
+	    echo 1 > "$result_path"
 	    continue
 	fi
 	if ! search_ak "$file"; then
 	    echo "ko (potential Access Key found)"
-	    result=1
+	    echo 1 > "$result_path"
 	    continue
 	fi
 	echo "ok"
     done
-    IFS=$old_ifs
-    return $result
+    result=$(cat "$result_path")
+    rm "$result_path"
+    return "$result"
 }
 
 function search_ak {
