@@ -47,7 +47,22 @@ function search_ak {
 	if (( digits < 3 )) || (( alphas < 3 )); then
 	    continue
 	fi
+	if ! is_ignored_ak "$ak"; then
+	    continue
+	fi
 	return 1
+    done
+    return 0
+}
+
+function is_ignored_ak {
+    local ak=$1
+    local ignored_aks
+    ignored_aks=(0123456789ABCDEFGHIJ ABCDEFGHIJ0123456789)
+    for ignored in "${ignored_aks[@]}"; do
+	if [[ "$ak" = "$ignored" ]]; then
+	    return 1
+	fi
     done
     return 0
 }

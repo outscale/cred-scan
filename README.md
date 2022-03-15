@@ -16,6 +16,9 @@ Example
 - Search for:
   - Access Keys (20 capital alphanumeric string)
   - Secret Keys (40 capital alphanumeric string)
+- Special Access Keys are ignored:
+  - `ABCDEFGHIJ0123456789`
+  - `0123456789ABCDEFGHIJ`
 
 # Contributing
 
