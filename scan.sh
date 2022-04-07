@@ -1,6 +1,23 @@
 #!/bin/bash
 set -eu
 
+function test_command {
+    cmd=${*:1}
+    set +e
+    if ! $cmd &> /dev/null; then
+        echo "error: command $cmd not found"
+        exit 1
+    fi
+    set -e
+}
+
+function dependencies_check {
+    test_command file --help
+    test_command find --help
+    test_command rm --help
+    test_command sed --help
+}
+
 function scan {
     local path=$1
     local result_path
@@ -100,6 +117,9 @@ if [ "$#" -ne 1 ]; then
     print_help
     exit 1
 fi
+
+dependencies_check
+
 path=$1
 if ! scan "$path" ; then
     echo "!!! Potential leak found !!!"
