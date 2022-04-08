@@ -8,8 +8,10 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v2
+    - name "Check and install file if needed"
+      run: file --help &> /dev/null || apt install -y file || sudo yum install -y file
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
       shell: bash
-    - name: Scan folder
+    - name: "Scan folder"
       shell: bash
       run: scan.sh ${{ inputs.scan_path }}
