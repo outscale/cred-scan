@@ -1,4 +1,5 @@
 # Credential Scanner
+[![Project Graduated](https://docs.outscale.com/fr/userguide/_images/Project-Graduated-green.svg)](https://docs.outscale.com/en/userguide/Open-Source-Projects.html)
 
 This small bash script will scan for leaked [Access Keys or Secret Keys](https://docs.outscale.com/en/userguide/About-Access-Keys.html) in a folder.
 
