@@ -1,8 +1,0 @@
-Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: cred-scan
-Upstream-Contact: Outscale support <support@outscale.com>
-Source: https://gitlab.com/outscale-dev/cred-scan/
-
-Files: *.sh *.txt *.md *.yml *.yaml
-Copyright: 2022 Outscale SAS <support@outscale.com>
-License: BSD-3-Clause
