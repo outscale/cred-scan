@@ -1,83 +1,143 @@
 # Credential Scanner
-[![Project Graduated](https://docs.outscale.com/fr/userguide/_images/Project-Graduated-green.svg)](https://docs.outscale.com/en/userguide/Open-Source-Projects.html)
 
-This small bash script will scan for leaked [Access Keys or Secret Keys](https://docs.outscale.com/en/userguide/About-Access-Keys.html) in a folder.
+[![Project Graduated](https://docs.outscale.com/fr/userguide/_images/Project-Graduated-green.svg)](https://docs.outscale.com/en/userguide/Open-Source-Projects.html) [![](https://dcbadge.limes.pink/api/server/HUVtY5gT6s?style=flat&theme=default-inverted)](https://discord.gg/HUVtY5gT6s)
 
-# Usage
+<p align="center">
+  <img alt="Key Icon" src="https://img.icons8.com/ios-filled/100/key-security.png" width="80px">
+  <br/>
+  <strong>Detect leaked Access Keys and Secret Keys in your codebase.</strong>
+</p>
 
-Just provide the folder to scan (recursively):
-Example
+---
+
+## 🌐 Links
+
+* 🔑 About Access Keys: [Outscale Access Keys](https://docs.outscale.com/en/userguide/About-Access-Keys.html)
+* ⚙️ GitHub Action: [action.yml](./action.yml)
+* 🧪 Test Script: [tests/tests.sh](./tests/tests.sh)
+* 🤝 Contribution Guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
+* 💬 Join us on [Discord](https://discord.gg/YOUR_INVITE_CODE)
+
+---
+
+## 📄 Table of Contents
+
+* [Overview](#-overview)
+* [Features](#-features)
+* [Requirements](#-requirements)
+* [Usage](#-usage)
+* [GitHub Actions Integration](#-github-actions-integration)
+* [Contributing](#-contributing)
+* [License](#-license)
+
+---
+
+## 🧭 Overview
+
+**Credential Scanner** is a lightweight Bash script that recursively scans a directory for leaked [Outscale Access Keys and Secret Keys](https://docs.outscale.com/en/userguide/About-Access-Keys.html).
+
+It skips binary files and uses strict patterns to avoid false positives and catch high-confidence secrets.
+
+---
+
+## ✨ Features
+
+* Recursive scanning of directories
+* Skips binary files
+* Detects:
+
+  * Access Keys (20-character uppercase alphanumeric)
+  * Secret Keys (40-character uppercase alphanumeric)
+* Ignores known test keys:
+
+  * `ABCDEFGHIJ0123456789`
+  * `0123456789ABCDEFGHIJ`
+* Ignores weak matches:
+
+  * Access Keys with <3 digits or <3 uppercase letters
+  * Secret Keys with <5 digits or <5 uppercase letters
+
+---
+
+## ✅ Requirements
+
+* Bash shell (Linux/macOS/WSL)
+* `grep`, `find`, and standard POSIX utilities
+
+---
+
+## 🚀 Usage
+
+```bash
+./scan.sh /path/to/your/codebase
 ```
-./scan.sh FOLDER_PATH
+
+Example:
+
+```bash
+./scan.sh ./src/
 ```
 
-# Features
+---
 
-- Skip binary files
-- Search for:
-  - Access Keys (20 capital alphanumeric random string)
-  - Secret Keys (40 capital alphanumeric random string)
-- Special Access Keys are ignored:
-  - `ABCDEFGHIJ0123456789`
-  - `0123456789ABCDEFGHIJ`
-- Access Keys withs less than 3 digits or less than 3 capital alphabetic characters are ignored.
-- Secret Keys with less than 5 digits or less than 5 capital alphabetic characters are ignored.
+## 🧪 GitHub Actions Integration
 
-# Contributing
+You can integrate this scanner directly into your GitHub workflows to detect secrets on pull requests.
 
-Feel free to open an issue for discussion.
-`./tests/tests.sh` to run tests.
+### 📥 Inputs
 
-# Using scanner in Github actions
+| Input       | Description  | Required | Default |
+| ----------- | ------------ | -------- | ------- |
+| `scan_path` | Path to scan | ✅ Yes    | `"./"`  |
 
-## Description
+### 📤 Outputs
 
-This Github action allows you to scan for leaked credentials.
-See [action.yml](action.yml)
+None
 
-## Inputs
+### 🧾 Example Workflow
 
-| Parameter           | Description                                                           | Required | Default   |
-| :------------------ | :-------------------------------------------------------------------- | :------- | :-------- |
-| `scan_path`         | Folder to scan                                                        | `true`   | `"./"`    |
-
-## Output
-N/A
-
-## Example
-
-- Create workflow folder: `mkdir -p .github/workflows`
-- Add new workflow `.github/workflows/cred-scan.yml`:
+Create a file at `.github/workflows/cred-scan.yml`:
 
 ```yaml
 name: Credential Scanner
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
+
+permissions:
+  contents: read
 
 jobs:
   cred-scan:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Scan credentials
-      uses: outscale-dev/cred-scan@main
-      with:
-        scan_path: "./"
+      - uses: actions/checkout@v5
+      - name: Scan credentials
+        uses: outscale/cred-scan@main
+        with:
+          scan_path: "./"
 ```
 
-# License
+---
 
-> Copyright Outscale SAS
->
-> BSD-3-Clause
+## 🤝 Contributing
 
-`LICENSE` folder contain raw licenses terms following spdx naming.
+We welcome contributions and discussions!
 
-You can check which license apply to which copyright owner through `.reuse/dep5` specification.
+* Run tests with:
 
-You can test [reuse](https://reuse.software/.) compliance by running:
-```
-docker run --rm --volume $(pwd):/data fsfe/reuse:0.11.1 lint
-```
+  ```bash
+  ./tests/tests.sh
+  ```
+
+Please read our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting a pull request.
+
+---
+
+## 📜 License
+
+**Credential Scanner** is licensed under the BSD 3-Clause License.
+© Outscale SAS
+
+This project follows the [REUSE Specification](https://reuse.software/).
