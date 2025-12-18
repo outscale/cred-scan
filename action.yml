@@ -7,7 +7,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
     - name: "Check and install file if needed"
       shell: bash
       run: file --help &> /dev/null || sudo apt install -y file || sudo yum install -y file
